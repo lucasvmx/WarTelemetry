@@ -4,14 +4,14 @@ import (
 	"encoding/json"
 	"log"
 
-	model "github.com/lucas-engen/WarTelemetry/model/gamechat"
+	"github.com/lucas-engen/WarTelemetry/model/gamechat"
 	client "github.com/lucas-engen/WarTelemetry/network/http"
 )
 
 // GetGamechatData retrieves data about gamechat
-func GetGamechatData() (gc []model.GameChat) {
+func GetGamechatData() (gc []gamechat.GameChat) {
 	// Sends the GET request
-	response := client.Get(model.GetURL())
+	response := client.Get(gamechat.GetURL())
 
 	log.Printf("[INFO] Response size: %d", response.ContentLength)
 
