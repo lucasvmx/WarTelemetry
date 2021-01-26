@@ -2,10 +2,13 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
+	"strings"
 
 	"github.com/lucas-engen/WarTelemetry/model/state"
 	client "github.com/lucas-engen/WarTelemetry/network/http"
+	"github.com/lucas-engen/WarTelemetry/utils"
 )
 
 // GetStateData function retrieves data about running missions
@@ -18,6 +21,11 @@ func GetStateData() (st *state.AircraftState) {
 	if err != nil {
 		log.Fatalf("[FATAL] Failed to read response because of: %v", err)
 	}
+
+	// Process JSON into a readable format
+	data = utils.ProcessJSON(data)
+
+	fmt.Printf("%v\n", strings.ReplaceAll(string(data), " ", ""))
 
 	// Decode JSON into a struct
 	marshalErr := json.Unmarshal(data, &st)
