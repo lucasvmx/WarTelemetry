@@ -14,13 +14,7 @@ var objs *mapobjects.MapObjects
 func GetMapObjsData() (mo []mapobjects.MapObjects) {
 
 	// Sends GET request
-	response := network.Get(mapobjects.GetURL())
-
-	// Reads the server response
-	data, err := network.ReadResponse(response)
-	if err != nil {
-		log.Fatalf("[FATAL] Failed to read HTTP response")
-	}
+	data := network.GetDataFromURL(mapobjects.GetURL())
 
 	// Decode data into a json struct
 	failure := json.Unmarshal(data, &mo)

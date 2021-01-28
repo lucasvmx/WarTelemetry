@@ -5,20 +5,14 @@ import (
 	"log"
 
 	"github.com/lucas-engen/WarTelemetry/model/state"
-	client "github.com/lucas-engen/WarTelemetry/network/http"
+	network "github.com/lucas-engen/WarTelemetry/network/http"
 	"github.com/lucas-engen/WarTelemetry/utils"
 )
 
 // GetStateData function retrieves data about running missions
 func GetStateData() (st *state.AircraftState) {
 	// Sends a HTTP request
-	response := client.Get(state.GetURL())
-
-	// Reads HTTP response
-	data, err := client.ReadResponse(response)
-	if err != nil {
-		log.Fatalf("[FATAL] Failed to read response because of: %v", err)
-	}
+	data := network.GetDataFromURL(state.GetURL())
 
 	// Process JSON into a readable format
 	data = utils.ProcessJSON(data)

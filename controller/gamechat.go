@@ -11,15 +11,7 @@ import (
 // GetGamechatData retrieves data about gamechat
 func GetGamechatData() (gc []gamechat.GameChat) {
 	// Sends the GET request
-	response := client.Get(gamechat.GetURL())
-
-	log.Printf("[INFO] Response size: %d", response.ContentLength)
-
-	// Read response body
-	body, err := client.ReadResponse(response)
-	if err != nil {
-		log.Fatalf("[FATAL] Failed to read HTTP response because of: %v", err)
-	}
+	body := client.GetDataFromURL(gamechat.GetURL())
 
 	// Decode data into a struct
 	marshalErr := json.Unmarshal(body, &gc)

@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-// Get function sends a GET request to the specified URL
-func Get(url string) *http.Response {
+// ret function sends a GET request to the specified URL
+func get(url string) *http.Response {
 	response, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("[FATAL] Failed to send request because of: %v", err)
@@ -20,8 +20,8 @@ func Get(url string) *http.Response {
 	return response
 }
 
-// ReadResponse function reads a HTTP request body
-func ReadResponse(response *http.Response) (data []byte, err error) {
+// readResponse function reads a HTTP request body
+func readResponse(response *http.Response) (data []byte, err error) {
 	// Release all resources
 	defer response.Body.Close()
 
@@ -29,4 +29,15 @@ func ReadResponse(response *http.Response) (data []byte, err error) {
 	data, err = ioutil.ReadAll(response.Body)
 
 	return
+}
+
+// GetDataFromURL function retrieves data from the specified URL as string
+func GetDataFromURL(url string) []byte {
+	payload := get(url)
+	data, err := readResponse(payload)
+	if err != nil {
+		log.Fatalf("[FATAL] Failed to get data from URL: %v", err)
+	}
+
+	return data
 }
