@@ -10,12 +10,8 @@ import (
 func get(url string) (response *http.Response, err error) {
 	response, err = http.Get(url)
 	if err != nil {
-		log.Printf("[FATAL] Failed to send request because of: %v", err)
+		log.Printf("[ERROR] Failed to send request because of: %v", err)
 		return nil, err
-	}
-
-	if response.StatusCode != 200 {
-		log.Printf("[INFO] Server returned %d. Url: %v", response.StatusCode, url)
 	}
 
 	return response, err
