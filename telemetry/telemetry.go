@@ -27,6 +27,9 @@ func GetTelemetryData() (data *model.TelemetryData, err error) {
 	state, err := controller.GetStateData()
 	missionData, err := controller.GetMissionData()
 
+	// Initialize struct
+	data = &model.TelemetryData{}
+
 	data.MapInfo = mapInfo
 	data.Gamechat = gamechat
 	data.Indicators = indicators
