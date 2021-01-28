@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 
 	"github.com/lucas-engen/WarTelemetry/model/mapobjects"
 	network "github.com/lucas-engen/WarTelemetry/network/http"
@@ -11,15 +10,18 @@ import (
 var objs *mapobjects.MapObjects
 
 // GetMapObjsData function retrives data about all map objects
-func GetMapObjsData() (mo []mapobjects.MapObjects) {
+func GetMapObjsData() (mo []mapobjects.MapObjects, err error) {
 
 	// Sends GET request
-	data := network.GetDataFromURL(mapobjects.GetURL())
+	data, err := network.GetDataFromURL(mapobjects.GetURL())
+	if err != nil {
+		return nil, err
+	}
 
 	// Decode data into a json struct
-	failure := json.Unmarshal(data, &mo)
-	if failure != nil {
-		log.Fatalf("[FATAL] Failed to decode JSON")
+	err = json.Unmarshal(data, &mo)
+	if err != nil {
+		return nil, err
 	}
 
 	return

@@ -2,20 +2,23 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 
 	"github.com/lucas-engen/WarTelemetry/model/hudmsg"
 	network "github.com/lucas-engen/WarTelemetry/network/http"
 )
 
-func GetHudMessagesData() (messages *hudmsg.Hudmsg) {
+// GetHudMessagesData function retrieves all messages from HUD
+func GetHudMessagesData() (messages *hudmsg.Hudmsg, err error) {
 
-	data := network.GetDataFromURL(hudmsg.GetURL())
+	data, err := network.GetDataFromURL(hudmsg.GetURL())
+	if err != nil {
+		return nil, err
+	}
 
 	// Decode data into a struct
 	failure := json.Unmarshal(data, &messages)
 	if failure != nil {
-		log.Fatalf("[FATAL] Failed to retrive data from server: %v", failure)
+		return nil, err
 	}
 
 	return

@@ -7,8 +7,8 @@ import (
 )
 
 // ret function sends a GET request to the specified URL
-func get(url string) *http.Response {
-	response, err := http.Get(url)
+func get(url string) (response *http.Response, err error) {
+	response, err = http.Get(url)
 	if err != nil {
 		log.Fatalf("[FATAL] Failed to send request because of: %v", err)
 	}
@@ -17,7 +17,7 @@ func get(url string) *http.Response {
 		log.Fatalf("[INFO] Server returned %d. Url: %v", response.StatusCode, url)
 	}
 
-	return response
+	return response, err
 }
 
 // readResponse function reads a HTTP request body
@@ -32,12 +32,18 @@ func readResponse(response *http.Response) (data []byte, err error) {
 }
 
 // GetDataFromURL function retrieves data from the specified URL as string
-func GetDataFromURL(url string) []byte {
-	payload := get(url)
-	data, err := readResponse(payload)
+func GetDataFromURL(url string) (data []byte, err error) {
+	// Sends the GET request
+	payload, err := get(url)
 	if err != nil {
-		log.Fatalf("[FATAL] Failed to get data from URL: %v", err)
+		return nil, err
 	}
 
-	return data
+	// Reads the HTTP response body
+	data, err = readResponse(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	return
 }

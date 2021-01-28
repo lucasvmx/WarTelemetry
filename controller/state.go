@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 
 	"github.com/lucas-engen/WarTelemetry/model/state"
 	network "github.com/lucas-engen/WarTelemetry/network/http"
@@ -10,17 +9,20 @@ import (
 )
 
 // GetStateData function retrieves data about running missions
-func GetStateData() (st *state.AircraftState) {
+func GetStateData() (st *state.AircraftState, err error) {
 	// Sends a HTTP request
-	data := network.GetDataFromURL(state.GetURL())
+	data, err := network.GetDataFromURL(state.GetURL())
+	if err != nil {
+		return nil, err
+	}
 
 	// Process JSON into a readable format
 	data = utils.ProcessJSON(data)
 
 	// Decode JSON into a struct
-	marshalErr := json.Unmarshal(data, &st)
-	if marshalErr != nil {
-		log.Fatalf("[FATAL] Failed to decode JSON data: %v", marshalErr)
+	err = json.Unmarshal(data, &st)
+	if err != nil {
+		return nil, err
 	}
 
 	return

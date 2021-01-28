@@ -2,18 +2,21 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 
 	"github.com/lucas-engen/WarTelemetry/model/mapinfo"
 	network "github.com/lucas-engen/WarTelemetry/network/http"
 )
 
-func GetMapInfoData() (mi *mapinfo.MapInformation) {
-	data := network.GetDataFromURL(mapinfo.GetURL())
+// GetMapInfoData function retrieves information about current map
+func GetMapInfoData() (mi *mapinfo.MapInformation, err error) {
+	data, err := network.GetDataFromURL(mapinfo.GetURL())
+	if err != nil {
+		return nil, err
+	}
 
 	failure := json.Unmarshal(data, &mi)
 	if failure != nil {
-		log.Fatalf("[FATAL] Failed to decode data into a struct: %v", failure)
+		return nil, err
 	}
 
 	return

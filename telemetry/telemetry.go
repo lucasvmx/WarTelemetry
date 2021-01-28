@@ -18,14 +18,14 @@ func Initialize(hostname string) {
 }
 
 // GetTelemetryData function retrieves all telemetry data
-func GetTelemetryData() (data *model.TelemetryData) {
-	gamechat := controller.GetGamechatData()
-	indicators := controller.GetIndicatorsData()
-	mapInfo := controller.GetMapInfoData()
-	hudMessages := controller.GetHudMessagesData()
-	mapObjects := controller.GetMapObjsData()
-	state := controller.GetStateData()
-	missionData := controller.GetMissionData()
+func GetTelemetryData() (data *model.TelemetryData, err error) {
+	gamechat, err := controller.GetGamechatData()
+	indicators, err := controller.GetIndicatorsData()
+	mapInfo, err := controller.GetMapInfoData()
+	hudMessages, err := controller.GetHudMessagesData()
+	mapObjects, err := controller.GetMapObjsData()
+	state, err := controller.GetStateData()
+	missionData, err := controller.GetMissionData()
 
 	data.MapInfo = mapInfo
 	data.Gamechat = gamechat
