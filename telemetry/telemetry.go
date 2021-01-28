@@ -1,4 +1,4 @@
-package wartelemetry
+package telemetry
 
 import (
 	"log"
