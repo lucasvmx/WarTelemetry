@@ -2,5 +2,5 @@ WarTelemetry is a simple library to get WarThunder data provided by the localhos
 
 # Usage
 ```go
-import "github.com/lucas-engen/wartelemetry"
+import "github.com/lucas-engen/WarTelemetry/telemetry"
 ```
