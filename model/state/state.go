@@ -1,5 +1,11 @@
 package state
 
+import (
+	"strings"
+
+	"github.com/lucas-engen/WarTelemetry/utils"
+)
+
 // AircraftState struct contains data about current vehicle state
 type AircraftState struct {
 	Valid             bool    `json:"valid"`
@@ -68,7 +74,12 @@ type AircraftState struct {
 	Efficiency4       float32 `json:"efficiency4"`
 }
 
+var path string = "state"
+
 // GetURL returns the full URL path to access vehicle state resources
 func GetURL() string {
-	return "http://localhost:8111/state"
+	url := utils.GetBaseURL()
+	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+	url = strings.ReplaceAll(url, "$path$", path)
+	return url
 }

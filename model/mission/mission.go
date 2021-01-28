@@ -1,5 +1,11 @@
 package mission
 
+import (
+	"strings"
+
+	"github.com/lucas-engen/WarTelemetry/utils"
+)
+
 // MissionInfo struct contains data about mission
 type MissionInfo struct {
 	MissionObjectives []Objectives `json:"objectives"`
@@ -13,7 +19,12 @@ type Objectives struct {
 	Text    string `json:"text"`
 }
 
+var path string = "mission.json"
+
 // GetURL retrieves the URL to get data about mission
 func GetURL() string {
-	return "http://localhost:8111/mission.json"
+	url := utils.GetBaseURL()
+	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+	url = strings.ReplaceAll(url, "$path$", path)
+	return url
 }

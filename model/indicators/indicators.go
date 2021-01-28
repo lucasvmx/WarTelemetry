@@ -1,5 +1,11 @@
 package indicators
 
+import (
+	"strings"
+
+	"github.com/lucas-engen/WarTelemetry/utils"
+)
+
 // Indicators struct contains data about aircraft indicators
 type Indicators struct {
 	Valid            bool    `json:"valid"`
@@ -30,6 +36,11 @@ type Indicators struct {
 	RpmMin1          float32 `json:"rpm1_min"`
 }
 
+var path string = "indicators"
+
 func GetURL() string {
-	return "http://localhost:8111/indicators"
+	url := utils.GetBaseURL()
+	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+	url = strings.ReplaceAll(url, "$path$", path)
+	return url
 }

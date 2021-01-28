@@ -1,5 +1,11 @@
 package gamechat
 
+import (
+	"strings"
+
+	"github.com/lucas-engen/WarTelemetry/utils"
+)
+
 // GameChat struct
 type GameChat struct {
 	ID      int    `json:"id"`
@@ -9,7 +15,14 @@ type GameChat struct {
 	Mode    string `json:"mode"`
 }
 
+// path string
+var path string = "gamechat"
+
 // GetURL function retrieves the URL to get data about gamechat
 func GetURL() string {
-	return "http://localhost:8111/gamechat"
+	url := utils.GetBaseURL()
+	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+	url = strings.ReplaceAll(url, "$path$", path)
+
+	return url
 }

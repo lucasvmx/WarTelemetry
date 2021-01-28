@@ -1,5 +1,11 @@
 package mapinfo
 
+import (
+	"strings"
+
+	"github.com/lucas-engen/WarTelemetry/utils"
+)
+
 type MapInformation struct {
 	GridSteps []string `json:"grid_steps"`
 	GridZero  []string `json:"grid_zero"`
@@ -8,12 +14,22 @@ type MapInformation struct {
 	MapMin    []string `json:"map_min"`
 }
 
+var path string = "map_info.json"
+
 // Retrieves URL to get map info data
 func GetURL() string {
-	return "http://localhost:8111/map_info.json"
+	url := utils.GetBaseURL()
+	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+	url = strings.ReplaceAll(url, "$path$", path)
+	return url
 }
+
+var img_path string = "map.img"
 
 // Retrieves the image that contains the map drawing
 func GetImageURL() string {
-	return "http://localhost:8111/map.img"
+	url := utils.GetBaseURL()
+	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+	url = strings.ReplaceAll(url, "$path$", img_path)
+	return url
 }

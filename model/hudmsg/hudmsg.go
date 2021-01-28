@@ -1,5 +1,11 @@
 package hudmsg
 
+import (
+	"strings"
+
+	"github.com/lucas-engen/WarTelemetry/utils"
+)
+
 type Hudmsg struct {
 	Events []string     `json:"events"`
 	Damage []DamageData `json:"damage"`
@@ -13,7 +19,12 @@ type DamageData struct {
 	Mode    string `json:"mode"`
 }
 
+var path string = "hudmsg"
+
 // GetURL function retrieves the URL to get data about gamechat
 func GetURL() string {
-	return "http://localhost:8111/hudmsg"
+	url := utils.GetBaseURL()
+	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+	url = strings.ReplaceAll(url, "$path$", path)
+	return url
 }

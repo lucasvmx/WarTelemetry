@@ -1,5 +1,11 @@
 package mapobjects
 
+import (
+	"strings"
+
+	"github.com/lucas-engen/WarTelemetry/utils"
+)
+
 // MapObjects struct contains data about map objects
 type MapObjects struct {
 	Type   string  `json:"type"`
@@ -18,7 +24,12 @@ type MapObjects struct {
 	Ey     float32 `json:"ey"`
 }
 
+var path string = "map_obj.json"
+
 // GetURL retrieves data about map objects
 func GetURL() string {
-	return "http://localhost:8111/map_obj.json"
+	url := utils.GetBaseURL()
+	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+	url = strings.ReplaceAll(url, "$path$", path)
+	return url
 }
