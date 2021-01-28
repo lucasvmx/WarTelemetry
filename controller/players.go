@@ -9,7 +9,7 @@ import (
 
 // GetCurrentPlayer function gets the current player
 func GetCurrentPlayer(mo []mapobjects.MapObjects) (*mapobjects.MapObjects, error) {
-	var player *mapobjects.MapObjects
+	var player *mapobjects.MapObjects = &mapobjects.MapObjects{}
 	var found bool = false
 
 	// Parses all objects in current map
