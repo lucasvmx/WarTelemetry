@@ -25,11 +25,15 @@ func GetURL() string {
 }
 
 var img_path string = "map.img"
+var url string = ""
 
 // Retrieves the image that contains the map drawing
 func GetImageURL() string {
-	url := utils.GetBaseURL()
-	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
-	url = strings.ReplaceAll(url, "$path$", img_path)
+	if len(url) == 0 {
+		url = utils.GetBaseURL()
+		url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+		url = strings.ReplaceAll(url, "$path$", img_path)
+	}
+
 	return url
 }

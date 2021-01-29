@@ -75,11 +75,15 @@ type AircraftState struct {
 }
 
 var path string = "state"
+var url string = ""
 
 // GetURL returns the full URL path to access vehicle state resources
 func GetURL() string {
-	url := utils.GetBaseURL()
-	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
-	url = strings.ReplaceAll(url, "$path$", path)
+	if len(url) == 0 {
+		url = utils.GetBaseURL()
+		url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+		url = strings.ReplaceAll(url, "$path$", path)
+	}
+
 	return url
 }

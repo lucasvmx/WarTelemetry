@@ -20,11 +20,15 @@ type Objectives struct {
 }
 
 var path string = "mission.json"
+var url string = ""
 
 // GetURL retrieves the URL to get data about mission
 func GetURL() string {
-	url := utils.GetBaseURL()
-	url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
-	url = strings.ReplaceAll(url, "$path$", path)
+	if len(url) == 0 {
+		url = utils.GetBaseURL()
+		url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
+		url = strings.ReplaceAll(url, "$path$", path)
+	}
+
 	return url
 }
