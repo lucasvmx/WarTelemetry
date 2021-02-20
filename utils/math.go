@@ -20,3 +20,11 @@ func CalculateDistance(p1, p2 Vector2D) float64 {
 
 	return math.Sqrt(dx + dy)
 }
+
+// GetVector2D function returns the 2D vector to the specified coordinates
+func GetVector2D(x, y float64) Vector2D {
+	return Vector2D{
+		X: x,
+		Y: y,
+	}
+}
