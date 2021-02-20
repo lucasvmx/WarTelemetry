@@ -2,7 +2,7 @@
 
 # War Telemetry
 
-![](logo.jpg)
+<img src="logo.jpg" alt="drawing" width="250" height="200"/>
 
 A simple library to get WarThunder data provided by the localhost server
 
