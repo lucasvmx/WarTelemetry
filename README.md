@@ -1,6 +1,10 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/lucas-engen/wartelemetry/badge)](https://www.codefactor.io/repository/github/lucas-engen/wartelemetry)
 
-WarTelemetry is a simple library to get WarThunder data provided by the localhost server
+# War Telemetry
+
+![](logo.jpg)
+
+A simple library to get WarThunder data provided by the localhost server
 
 # Usage
 
@@ -38,3 +42,6 @@ go get -v
 ```sh
 go build
 ```
+
+# Thanks
+- [Elyakim Klettke](https://github.com/elyakimklettke)
