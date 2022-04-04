@@ -3,9 +3,12 @@ package controller
 import (
 	"errors"
 	"log"
+	"strings"
 
 	"github.com/lucas-engen/WarTelemetry/model/mapobjects"
 )
+
+var currentPlayerColor string
 
 // GetCurrentPlayer function gets the current player
 func GetCurrentPlayer(mo []mapobjects.MapObjects) (*mapobjects.MapObjects, error) {
@@ -17,6 +20,7 @@ func GetCurrentPlayer(mo []mapobjects.MapObjects) (*mapobjects.MapObjects, error
 		if IsCurrentPlayer(&object) {
 			player = &object
 			found = true
+			currentPlayerColor = object.Color
 			break
 		}
 	}
@@ -31,12 +35,18 @@ func GetCurrentPlayer(mo []mapobjects.MapObjects) (*mapobjects.MapObjects, error
 // GetAlliesColor function gets the color of allied players
 func GetAlliesColor(mo []mapobjects.MapObjects) (color string) {
 
+	if len(currentPlayerColor) > 0 {
+		return currentPlayerColor
+	}
+
 	// Gets current player
 	player, err := GetCurrentPlayer(mo)
 	if err != nil {
 		log.Printf("[ERROR] Failed to get current player: %v", err)
 		return
 	}
+
+	currentPlayerColor = player.Color
 
 	return player.Color
 }
@@ -54,4 +64,24 @@ func IsEnemy(object *mapobjects.MapObjects, mo []mapobjects.MapObjects) (bool, e
 	}
 
 	return false, nil
+}
+
+// IsEnemyFighter checks if the specified object is a enemy fighter
+func IsEnemyFighter(object *mapobjects.MapObjects, mo []mapobjects.MapObjects) bool {
+
+	if strings.ToLower(object.Icon) != "fighter" {
+		return false
+	}
+
+	// Get ally color
+	allyColor := GetAlliesColor(mo)
+
+	for _, obj := range mo {
+		objType := strings.ToLower(obj.Icon)
+		if objType == "fighter" && obj.Color != allyColor {
+			return true
+		}
+	}
+
+	return false
 }

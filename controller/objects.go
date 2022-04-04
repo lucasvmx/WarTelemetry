@@ -25,6 +25,7 @@ func IsAircraft(object *mapobjects.MapObjects) bool {
 func IsCurrentPlayer(object *mapobjects.MapObjects) bool {
 
 	iconName := strings.ToLower(object.Icon)
+
 	// Check object
 	if iconName == "player" {
 		return true
