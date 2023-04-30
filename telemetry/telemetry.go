@@ -5,6 +5,13 @@ import (
 
 	"github.com/lucas-engen/WarTelemetry/controller"
 	"github.com/lucas-engen/WarTelemetry/model"
+	"github.com/lucas-engen/WarTelemetry/model/gamechat"
+	"github.com/lucas-engen/WarTelemetry/model/hudmsg"
+	"github.com/lucas-engen/WarTelemetry/model/indicators"
+	"github.com/lucas-engen/WarTelemetry/model/mapinfo"
+	"github.com/lucas-engen/WarTelemetry/model/mapobjects"
+	"github.com/lucas-engen/WarTelemetry/model/mission"
+	"github.com/lucas-engen/WarTelemetry/model/state"
 	"github.com/lucas-engen/WarTelemetry/utils"
 )
 
@@ -19,24 +26,41 @@ func Initialize(hostname string) {
 
 // GetTelemetryData function retrieves all telemetry data
 func GetTelemetryData() (data *model.TelemetryData, err error) {
-	gamechat, err := controller.GetGamechatData()
-	indicators, err := controller.GetIndicatorsData()
-	mapInfo, err := controller.GetMapInfoData()
-	hudMessages, err := controller.GetHudMessagesData()
-	mapObjects, err := controller.GetMapObjsData()
-	state, err := controller.GetStateData()
-	missionData, err := controller.GetMissionData()
+	var count int = 0
+	go controller.GetGamechatData()
+	go controller.GetIndicatorsData()
+	go controller.GetMapInfoData()
+	go controller.GetHudMessagesData()
+	go controller.GetMapObjsData()
+	go controller.GetStateData()
+	go controller.GetMissionData()
 
 	// Initialize struct
 	data = &model.TelemetryData{}
 
-	data.MapInfo = mapInfo
-	data.Gamechat = gamechat
-	data.Indicators = indicators
-	data.HudMessages = hudMessages
-	data.State = state
-	data.MapObjects = mapObjects
-	data.MissionInfo = missionData
+	for count < 7 {
+
+		e := <-controller.DataChan
+
+		switch value := e.(type) {
+		case *mapinfo.MapInformation:
+			data.MapInfo = value
+		case []gamechat.GameChat:
+			data.Gamechat = value
+		case *indicators.Indicators:
+			data.Indicators = value
+		case *state.AircraftState:
+			data.State = value
+		case *hudmsg.Hudmsg:
+			data.HudMessages = value
+		case []mapobjects.MapObjects:
+			data.MapObjects = value
+		case *mission.MissionInfo:
+			data.MissionInfo = value
+		}
+
+		count++
+	}
 
 	return
 }

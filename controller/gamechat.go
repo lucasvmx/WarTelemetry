@@ -21,5 +21,7 @@ func GetGamechatData() (gc []gamechat.GameChat, err error) {
 		return nil, err
 	}
 
+	DataChan <- gc
+
 	return
 }

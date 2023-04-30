@@ -21,5 +21,7 @@ func GetMissionData() (mi *mission.MissionInfo, err error) {
 		return nil, err
 	}
 
+	DataChan <- mi
+
 	return
 }

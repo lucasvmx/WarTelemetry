@@ -19,5 +19,7 @@ func GetMapInfoData() (mi *mapinfo.MapInformation, err error) {
 		return nil, err
 	}
 
+	DataChan <- mi
+
 	return
 }

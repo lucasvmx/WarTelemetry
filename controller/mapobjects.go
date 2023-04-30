@@ -24,5 +24,7 @@ func GetMapObjsData() (mo []mapobjects.MapObjects, err error) {
 		return nil, err
 	}
 
+	DataChan <- mo
+
 	return
 }

@@ -19,5 +19,7 @@ func GetIndicatorsData() (id *indicators.Indicators, err error) {
 		return nil, err
 	}
 
+	DataChan <- id
+
 	return
 }

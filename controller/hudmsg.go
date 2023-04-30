@@ -21,5 +21,7 @@ func GetHudMessagesData() (messages *hudmsg.Hudmsg, err error) {
 		return nil, err
 	}
 
+	DataChan <- messages
+
 	return
 }
