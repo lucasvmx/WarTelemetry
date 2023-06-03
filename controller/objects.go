@@ -3,8 +3,8 @@ package controller
 import (
 	"strings"
 
-	"github.com/lucas-engen/WarTelemetry/model/mapobjects"
-	"github.com/lucas-engen/WarTelemetry/utils"
+	"github.com/lucasvmx/WarTelemetry/model/mapobjects"
+	"github.com/lucasvmx/WarTelemetry/utils"
 )
 
 // distanceFactor constains the multiplication factor to be used on distance calculation

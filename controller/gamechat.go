@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"sync"
 
-	"github.com/lucas-engen/WarTelemetry/model/gamechat"
-	client "github.com/lucas-engen/WarTelemetry/network/http"
+	"github.com/lucasvmx/WarTelemetry/model/gamechat"
+	client "github.com/lucasvmx/WarTelemetry/network/http"
 )
 
 // GetGamechatData retrieves data about gamechat

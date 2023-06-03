@@ -3,7 +3,7 @@ package mission
 import (
 	"strings"
 
-	"github.com/lucas-engen/WarTelemetry/utils"
+	"github.com/lucasvmx/WarTelemetry/utils"
 )
 
 // MissionInfo struct contains data about mission

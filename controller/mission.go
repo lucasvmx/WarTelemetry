@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"sync"
 
-	"github.com/lucas-engen/WarTelemetry/model/mission"
-	network "github.com/lucas-engen/WarTelemetry/network/http"
+	"github.com/lucasvmx/WarTelemetry/model/mission"
+	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
 
 // GetMissionData function retrieves data about running missions

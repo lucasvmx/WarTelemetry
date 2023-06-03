@@ -3,7 +3,7 @@ package mapobjects
 import (
 	"strings"
 
-	"github.com/lucas-engen/WarTelemetry/utils"
+	"github.com/lucasvmx/WarTelemetry/utils"
 )
 
 // MapObjects struct contains data about map objects

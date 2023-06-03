@@ -3,7 +3,7 @@ package gamechat
 import (
 	"strings"
 
-	"github.com/lucas-engen/WarTelemetry/utils"
+	"github.com/lucasvmx/WarTelemetry/utils"
 )
 
 // GameChat struct

@@ -3,7 +3,7 @@ package indicators
 import (
 	"strings"
 
-	"github.com/lucas-engen/WarTelemetry/utils"
+	"github.com/lucasvmx/WarTelemetry/utils"
 )
 
 // Indicators struct contains data about aircraft indicators

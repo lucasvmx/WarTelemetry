@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/lucas-engen/WarTelemetry/model/mapobjects"
+	"github.com/lucasvmx/WarTelemetry/model/mapobjects"
 )
 
 var currentPlayerColor string

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"sync"
 
-	"github.com/lucas-engen/WarTelemetry/model/mapobjects"
-	network "github.com/lucas-engen/WarTelemetry/network/http"
+	"github.com/lucasvmx/WarTelemetry/model/mapobjects"
+	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
 
 var objs *mapobjects.MapObjects

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"sync"
 
-	"github.com/lucas-engen/WarTelemetry/model/mapinfo"
-	network "github.com/lucas-engen/WarTelemetry/network/http"
+	"github.com/lucasvmx/WarTelemetry/model/mapinfo"
+	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
 
 // GetMapInfoData function retrieves information about current map

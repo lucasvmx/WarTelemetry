@@ -3,7 +3,7 @@ package state
 import (
 	"strings"
 
-	"github.com/lucas-engen/WarTelemetry/utils"
+	"github.com/lucasvmx/WarTelemetry/utils"
 )
 
 // AircraftState struct contains data about current vehicle state

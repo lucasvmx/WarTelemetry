@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"sync"
 
-	"github.com/lucas-engen/WarTelemetry/model/hudmsg"
-	network "github.com/lucas-engen/WarTelemetry/network/http"
+	"github.com/lucasvmx/WarTelemetry/model/hudmsg"
+	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
 
 // GetHudMessagesData function retrieves all messages from HUD

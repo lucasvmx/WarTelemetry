@@ -3,7 +3,7 @@ package mapinfo
 import (
 	"strings"
 
-	"github.com/lucas-engen/WarTelemetry/utils"
+	"github.com/lucasvmx/WarTelemetry/utils"
 )
 
 // MapInformation contains information about map

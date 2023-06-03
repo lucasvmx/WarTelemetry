@@ -1,4 +1,4 @@
-[![CodeFactor](https://www.codefactor.io/repository/github/lucas-engen/wartelemetry/badge)](https://www.codefactor.io/repository/github/lucas-engen/wartelemetry)
+[![CodeFactor](https://www.codefactor.io/repository/github/lucasvmx/wartelemetry/badge)](https://www.codefactor.io/repository/github/lucasvmx/wartelemetry)
 
 # War Telemetry
 
@@ -15,7 +15,7 @@ package main
 import (
 	"fmt"
 
-	wartelemetry "github.com/lucas-engen/WarTelemetry/telemetry"
+	wartelemetry "github.com/lucasvmx/WarTelemetry/telemetry"
 )
 
 func main() {

@@ -4,16 +4,16 @@ import (
 	"log"
 	"sync"
 
-	"github.com/lucas-engen/WarTelemetry/controller"
-	"github.com/lucas-engen/WarTelemetry/model"
-	"github.com/lucas-engen/WarTelemetry/model/gamechat"
-	"github.com/lucas-engen/WarTelemetry/model/hudmsg"
-	"github.com/lucas-engen/WarTelemetry/model/indicators"
-	"github.com/lucas-engen/WarTelemetry/model/mapinfo"
-	"github.com/lucas-engen/WarTelemetry/model/mapobjects"
-	"github.com/lucas-engen/WarTelemetry/model/mission"
-	"github.com/lucas-engen/WarTelemetry/model/state"
-	"github.com/lucas-engen/WarTelemetry/utils"
+	"github.com/lucasvmx/WarTelemetry/controller"
+	"github.com/lucasvmx/WarTelemetry/model"
+	"github.com/lucasvmx/WarTelemetry/model/gamechat"
+	"github.com/lucasvmx/WarTelemetry/model/hudmsg"
+	"github.com/lucasvmx/WarTelemetry/model/indicators"
+	"github.com/lucasvmx/WarTelemetry/model/mapinfo"
+	"github.com/lucasvmx/WarTelemetry/model/mapobjects"
+	"github.com/lucasvmx/WarTelemetry/model/mission"
+	"github.com/lucasvmx/WarTelemetry/model/state"
+	"github.com/lucasvmx/WarTelemetry/utils"
 )
 
 var wg *sync.WaitGroup
