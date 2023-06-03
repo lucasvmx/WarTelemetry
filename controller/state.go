@@ -2,14 +2,17 @@ package controller
 
 import (
 	"encoding/json"
+	"sync"
 
-	"github.com/lucas-engen/WarTelemetry/model/state"
-	network "github.com/lucas-engen/WarTelemetry/network/http"
-	"github.com/lucas-engen/WarTelemetry/utils"
+	"github.com/lucasvmx/WarTelemetry/model/state"
+	network "github.com/lucasvmx/WarTelemetry/network/http"
+	"github.com/lucasvmx/WarTelemetry/utils"
 )
 
 // GetStateData function retrieves data about running missions
-func GetStateData() (st *state.AircraftState, err error) {
+func GetStateData(wg *sync.WaitGroup) (st *state.AircraftState, err error) {
+	defer wg.Done()
+
 	// Sends a HTTP request
 	data, err := network.GetDataFromURL(state.GetURL())
 	if err != nil {

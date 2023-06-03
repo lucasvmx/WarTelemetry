@@ -2,13 +2,16 @@ package controller
 
 import (
 	"encoding/json"
+	"sync"
 
-	"github.com/lucas-engen/WarTelemetry/model/hudmsg"
-	network "github.com/lucas-engen/WarTelemetry/network/http"
+	"github.com/lucasvmx/WarTelemetry/model/hudmsg"
+	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
 
 // GetHudMessagesData function retrieves all messages from HUD
-func GetHudMessagesData() (messages *hudmsg.Hudmsg, err error) {
+func GetHudMessagesData(wg *sync.WaitGroup) (messages *hudmsg.Hudmsg, err error) {
+
+	defer wg.Done()
 
 	data, err := network.GetDataFromURL(hudmsg.GetURL())
 	if err != nil {
@@ -20,6 +23,8 @@ func GetHudMessagesData() (messages *hudmsg.Hudmsg, err error) {
 	if failure != nil {
 		return nil, err
 	}
+
+	DataChan <- messages
 
 	return
 }

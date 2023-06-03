@@ -2,13 +2,16 @@ package controller
 
 import (
 	"encoding/json"
+	"sync"
 
-	"github.com/lucas-engen/WarTelemetry/model/mapinfo"
-	network "github.com/lucas-engen/WarTelemetry/network/http"
+	"github.com/lucasvmx/WarTelemetry/model/mapinfo"
+	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
 
 // GetMapInfoData function retrieves information about current map
-func GetMapInfoData() (mi *mapinfo.MapInformation, err error) {
+func GetMapInfoData(wg *sync.WaitGroup) (mi *mapinfo.MapInformation, err error) {
+	defer wg.Done()
+
 	data, err := network.GetDataFromURL(mapinfo.GetURL())
 	if err != nil {
 		return nil, err
@@ -18,6 +21,8 @@ func GetMapInfoData() (mi *mapinfo.MapInformation, err error) {
 	if failure != nil {
 		return nil, err
 	}
+
+	DataChan <- mi
 
 	return
 }
