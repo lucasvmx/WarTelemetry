@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"sync"
 
 	"github.com/lucas-engen/WarTelemetry/model/mapobjects"
 	network "github.com/lucas-engen/WarTelemetry/network/http"
@@ -10,7 +11,8 @@ import (
 var objs *mapobjects.MapObjects
 
 // GetMapObjsData function retrives data about all map objects
-func GetMapObjsData() (mo []mapobjects.MapObjects, err error) {
+func GetMapObjsData(wg *sync.WaitGroup) (mo []mapobjects.MapObjects, err error) {
+	defer wg.Done()
 
 	// Sends GET request
 	data, err := network.GetDataFromURL(mapobjects.GetURL())
