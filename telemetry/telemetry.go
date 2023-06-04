@@ -26,7 +26,6 @@ func Initialize(hostname string) {
 
 // GetTelemetryData function retrieves all telemetry data
 func GetTelemetryData() (data *model.TelemetryData, err error) {
-	var count int = 0
 	go controller.GetGamechatData()
 	go controller.GetIndicatorsData()
 	go controller.GetMapInfoData()
@@ -38,10 +37,7 @@ func GetTelemetryData() (data *model.TelemetryData, err error) {
 	// Initialize struct
 	data = &model.TelemetryData{}
 
-	for count < 7 {
-
-		e := <-controller.DataChan
-
+	for e := range controller.DataChan {
 		switch value := e.(type) {
 		case *mapinfo.MapInformation:
 			data.MapInfo = value
@@ -58,8 +54,6 @@ func GetTelemetryData() (data *model.TelemetryData, err error) {
 		case *mission.MissionInfo:
 			data.MissionInfo = value
 		}
-
-		count++
 	}
 
 	return
