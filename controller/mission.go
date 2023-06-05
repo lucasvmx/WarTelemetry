@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"log"
 	"sync"
 
 	"github.com/lucasvmx/WarTelemetry/model/mission"
@@ -9,22 +10,25 @@ import (
 )
 
 // GetMissionData function retrieves data about running missions
-func GetMissionData(wg *sync.WaitGroup) (mi *mission.MissionInfo, err error) {
+func GetMissionData(wg *sync.WaitGroup) {
+	var mi *mission.MissionInfo
 	defer wg.Done()
 
 	// Sends a HTTP request
 	data, err := network.GetDataFromURL(mission.GetURL())
 	if err != nil {
-		return nil, err
+		log.Printf("[ERROR] failed to get mission data: %v", err)
+		DataChan <- err
+		return
 	}
 
 	// Decode JSON into a struct
 	err = json.Unmarshal(data, &mi)
 	if err != nil {
-		return nil, err
+		log.Printf("[ERROR] failed to get mission data: %v", err)
+		DataChan <- err
+		return
 	}
 
 	DataChan <- mi
-
-	return
 }

@@ -32,7 +32,7 @@ func Initialize(hostname string) {
 // GetTelemetryData function retrieves all telemetry data
 func GetTelemetryData() (data *model.TelemetryData, err error) {
 
-	wg.Add(7)
+	wg.Add(8)
 
 	go controller.GetGamechatData(wg)
 	go controller.GetIndicatorsData(wg)
@@ -42,7 +42,9 @@ func GetTelemetryData() (data *model.TelemetryData, err error) {
 	go controller.GetStateData(wg)
 	go controller.GetMissionData(wg)
 
-	wg.Wait()
+	log.Printf("waiting go routines to finish")
+	v := <-controller.DataChan
+	log.Printf("received %v", v)
 
 	// Initialize struct
 	data = &model.TelemetryData{}
@@ -63,6 +65,8 @@ func GetTelemetryData() (data *model.TelemetryData, err error) {
 			data.MapObjects = value
 		case *mission.MissionInfo:
 			data.MissionInfo = value
+		case error:
+			log.Printf("error: %v", value)
 		}
 	}
 

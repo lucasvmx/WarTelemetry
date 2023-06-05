@@ -10,13 +10,15 @@ import (
 )
 
 // GetStateData function retrieves data about running missions
-func GetStateData(wg *sync.WaitGroup) (st *state.AircraftState, err error) {
+func GetStateData(wg *sync.WaitGroup) {
+	var st *state.AircraftState
 	defer wg.Done()
 
 	// Sends a HTTP request
 	data, err := network.GetDataFromURL(state.GetURL())
 	if err != nil {
-		return nil, err
+		DataChan <- err
+		return
 	}
 
 	// Process JSON into a readable format
@@ -25,8 +27,7 @@ func GetStateData(wg *sync.WaitGroup) (st *state.AircraftState, err error) {
 	// Decode JSON into a struct
 	err = json.Unmarshal(data, &st)
 	if err != nil {
-		return nil, err
+		DataChan <- err
+		return
 	}
-
-	return
 }
