@@ -13,7 +13,7 @@ import (
 
 // GetStateData function retrieves data about running missions
 func GetStateData(wg *sync.WaitGroup) {
-	var st *state.AircraftState
+	var st *state.AircraftState = &state.AircraftState{}
 	defer wg.Done()
 
 	// Sends a HTTP request
@@ -27,11 +27,7 @@ func GetStateData(wg *sync.WaitGroup) {
 	data = utils.ProcessJSON(data)
 
 	// Decode JSON into a struct
-	err = json.Unmarshal(data, &st)
-	if err != nil {
-		log.Printf("[ERROR] failed to get state data: %v", err)
-		return
-	}
+	json.Unmarshal(data, &st)
 
 	model.TelemetryInstance.LockMux()
 	defer model.TelemetryInstance.UnlockMux()

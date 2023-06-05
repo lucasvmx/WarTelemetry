@@ -12,7 +12,7 @@ import (
 
 // GetMapObjsData function retrives data about all map objects
 func GetMapObjsData(wg *sync.WaitGroup) {
-	var mo []mapobjects.MapObjects
+	var mo []mapobjects.MapObjects = []mapobjects.MapObjects{}
 	defer wg.Done()
 
 	// Sends GET request
@@ -23,11 +23,7 @@ func GetMapObjsData(wg *sync.WaitGroup) {
 	}
 
 	// Decode data into a json struct
-	err = json.Unmarshal(data, &mo)
-	if err != nil {
-		log.Printf("[ERROR] failed to get map objects data: %v", err)
-		return
-	}
+	json.Unmarshal(data, &mo)
 
 	model.TelemetryInstance.LockMux()
 	defer model.TelemetryInstance.UnlockMux()

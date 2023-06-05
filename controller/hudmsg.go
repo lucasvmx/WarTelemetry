@@ -23,10 +23,6 @@ func GetHudMessagesData(wg *sync.WaitGroup) {
 
 	// Decode data into a struct
 	err = json.Unmarshal(data, &messages)
-	if err != nil {
-		log.Printf("[ERROR] failed to get hud message data: %v", err)
-		return
-	}
 
 	model.TelemetryInstance.LockMux()
 	defer model.TelemetryInstance.UnlockMux()

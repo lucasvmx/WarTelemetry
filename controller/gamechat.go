@@ -13,7 +13,7 @@ import (
 // GetGamechatData retrieves data about gamechat
 func GetGamechatData(wg *sync.WaitGroup) {
 
-	var gc []gamechat.GameChat
+	var gc []gamechat.GameChat = []gamechat.GameChat{}
 	defer wg.Done()
 
 	// Sends the GET request
@@ -24,11 +24,7 @@ func GetGamechatData(wg *sync.WaitGroup) {
 	}
 
 	// Decode data into a struct
-	err = json.Unmarshal(body, &gc)
-	if err != nil {
-		log.Printf("[ERROR] failed to get gamechat data: %v", err)
-		return
-	}
+	json.Unmarshal(body, &gc)
 
 	model.TelemetryInstance.LockMux()
 	defer model.TelemetryInstance.UnlockMux()
