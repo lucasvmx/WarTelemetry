@@ -5,6 +5,7 @@ import (
 	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/hudmsg"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
@@ -17,7 +18,6 @@ func GetHudMessagesData(wg *sync.WaitGroup) {
 	data, err := network.GetDataFromURL(hudmsg.GetURL())
 	if err != nil {
 		log.Printf("[ERROR] failed to get hud message data: %v", err)
-		DataChan <- err
 		return
 	}
 
@@ -25,9 +25,10 @@ func GetHudMessagesData(wg *sync.WaitGroup) {
 	err = json.Unmarshal(data, &messages)
 	if err != nil {
 		log.Printf("[ERROR] failed to get hud message data: %v", err)
-		DataChan <- err
 		return
 	}
 
-	DataChan <- messages
+	model.TelemetryInstance.LockMux()
+	defer model.TelemetryInstance.UnlockMux()
+	model.TelemetryInstance.HudMessages = messages
 }

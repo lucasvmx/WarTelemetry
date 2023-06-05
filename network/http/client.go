@@ -42,7 +42,5 @@ func GetDataFromURL(url string) (data []byte, err error) {
 		return nil, err
 	}
 
-	log.Printf("read %d bytes from body (%s)", len(data), url)
-
 	return
 }

@@ -5,6 +5,7 @@ import (
 	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/mission"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
@@ -18,7 +19,6 @@ func GetMissionData(wg *sync.WaitGroup) {
 	data, err := network.GetDataFromURL(mission.GetURL())
 	if err != nil {
 		log.Printf("[ERROR] failed to get mission data: %v", err)
-		DataChan <- err
 		return
 	}
 
@@ -26,9 +26,11 @@ func GetMissionData(wg *sync.WaitGroup) {
 	err = json.Unmarshal(data, &mi)
 	if err != nil {
 		log.Printf("[ERROR] failed to get mission data: %v", err)
-		DataChan <- err
 		return
 	}
 
-	DataChan <- mi
+	model.TelemetryInstance.LockMux()
+	defer model.TelemetryInstance.UnlockMux()
+
+	model.TelemetryInstance.MissionInfo = mi
 }

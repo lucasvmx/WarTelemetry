@@ -5,6 +5,7 @@ import (
 	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/mapobjects"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
@@ -18,7 +19,6 @@ func GetMapObjsData(wg *sync.WaitGroup) {
 	data, err := network.GetDataFromURL(mapobjects.GetURL())
 	if err != nil {
 		log.Printf("[ERROR] failed to get map objects data: %v", err)
-		DataChan <- err
 		return
 	}
 
@@ -26,9 +26,10 @@ func GetMapObjsData(wg *sync.WaitGroup) {
 	err = json.Unmarshal(data, &mo)
 	if err != nil {
 		log.Printf("[ERROR] failed to get map objects data: %v", err)
-		DataChan <- err
 		return
 	}
 
-	DataChan <- mo
+	model.TelemetryInstance.LockMux()
+	defer model.TelemetryInstance.UnlockMux()
+	model.TelemetryInstance.MapObjects = mo
 }

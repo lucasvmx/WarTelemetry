@@ -5,6 +5,7 @@ import (
 	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/mapinfo"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
@@ -17,16 +18,17 @@ func GetMapInfoData(wg *sync.WaitGroup) {
 	data, err := network.GetDataFromURL(mapinfo.GetURL())
 	if err != nil {
 		log.Printf("[ERROR] failed to get map information data: %v", err)
-		DataChan <- err
 		return
 	}
 
 	err = json.Unmarshal(data, &mi)
 	if err != nil {
 		log.Printf("[ERROR] failed to get map information data: %v", err)
-		DataChan <- err
 		return
 	}
 
-	DataChan <- mi
+	model.TelemetryInstance.LockMux()
+	defer model.TelemetryInstance.UnlockMux()
+
+	model.TelemetryInstance.MapInfo = mi
 }

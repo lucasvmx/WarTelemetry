@@ -28,6 +28,7 @@ func GetURL() string {
 		url = utils.GetBaseURL()
 		url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
 		url = strings.ReplaceAll(url, "$path$", path)
+		//url += "?lastEvt=0&lastDmg=0"
 	}
 
 	return url

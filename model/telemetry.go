@@ -1,6 +1,8 @@
 package model
 
 import (
+	"sync"
+
 	"github.com/lucasvmx/WarTelemetry/model/gamechat"
 	"github.com/lucasvmx/WarTelemetry/model/hudmsg"
 	"github.com/lucasvmx/WarTelemetry/model/indicators"
@@ -19,4 +21,28 @@ type TelemetryData struct {
 	State       *state.AircraftState
 	MapObjects  []mapobjects.MapObjects
 	MissionInfo *mission.MissionInfo
+	mux         *sync.Mutex
+}
+
+var TelemetryInstance *TelemetryData
+
+func (t *TelemetryData) setup() {
+	t.mux = &sync.Mutex{}
+}
+
+func (t *TelemetryData) LockMux() {
+	t.mux.Lock()
+}
+
+func (t *TelemetryData) UnlockMux() {
+	t.mux.Unlock()
+}
+
+func GetInstance() *TelemetryData {
+	return TelemetryInstance
+}
+
+func SetupTelemetry() {
+	TelemetryInstance = &TelemetryData{}
+	TelemetryInstance.setup()
 }

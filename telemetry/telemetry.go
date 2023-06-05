@@ -6,13 +6,6 @@ import (
 
 	"github.com/lucasvmx/WarTelemetry/controller"
 	"github.com/lucasvmx/WarTelemetry/model"
-	"github.com/lucasvmx/WarTelemetry/model/gamechat"
-	"github.com/lucasvmx/WarTelemetry/model/hudmsg"
-	"github.com/lucasvmx/WarTelemetry/model/indicators"
-	"github.com/lucasvmx/WarTelemetry/model/mapinfo"
-	"github.com/lucasvmx/WarTelemetry/model/mapobjects"
-	"github.com/lucasvmx/WarTelemetry/model/mission"
-	"github.com/lucasvmx/WarTelemetry/model/state"
 	"github.com/lucasvmx/WarTelemetry/utils"
 )
 
@@ -26,14 +19,12 @@ func Initialize(hostname string) {
 		log.Printf("[INFO] Hostname omitted. Using localhost")
 	}
 
+	model.SetupTelemetry()
 	wg = &sync.WaitGroup{}
 }
 
-// GetTelemetryData function retrieves all telemetry data
-func GetTelemetryData() (data *model.TelemetryData, err error) {
-
-	wg.Add(8)
-
+func getTelemetryData() {
+	wg.Add(7)
 	go controller.GetGamechatData(wg)
 	go controller.GetIndicatorsData(wg)
 	go controller.GetMapInfoData(wg)
@@ -41,34 +32,24 @@ func GetTelemetryData() (data *model.TelemetryData, err error) {
 	go controller.GetMapObjsData(wg)
 	go controller.GetStateData(wg)
 	go controller.GetMissionData(wg)
+	wg.Wait()
+}
 
-	log.Printf("waiting go routines to finish")
-	v := <-controller.DataChan
-	log.Printf("received %v", v)
+// GetTelemetryData function retrieves all telemetry data
+func GetTelemetryData() (data *model.TelemetryData, err error) {
 
 	// Initialize struct
 	data = &model.TelemetryData{}
 
-	for e := range controller.DataChan {
-		switch value := e.(type) {
-		case *mapinfo.MapInformation:
-			data.MapInfo = value
-		case []gamechat.GameChat:
-			data.Gamechat = value
-		case *indicators.Indicators:
-			data.Indicators = value
-		case *state.AircraftState:
-			data.State = value
-		case *hudmsg.Hudmsg:
-			data.HudMessages = value
-		case []mapobjects.MapObjects:
-			data.MapObjects = value
-		case *mission.MissionInfo:
-			data.MissionInfo = value
-		case error:
-			log.Printf("error: %v", value)
-		}
-	}
+	getTelemetryData()
+
+	data.MapInfo = model.GetInstance().MapInfo
+	data.Gamechat = model.GetInstance().Gamechat
+	data.Indicators = model.GetInstance().Indicators
+	data.State = model.GetInstance().State
+	data.HudMessages = model.GetInstance().HudMessages
+	data.MapObjects = model.GetInstance().MapObjects
+	data.MissionInfo = model.GetInstance().MissionInfo
 
 	return
 }

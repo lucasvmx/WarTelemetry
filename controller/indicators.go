@@ -5,6 +5,7 @@ import (
 	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/indicators"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
@@ -17,16 +18,16 @@ func GetIndicatorsData(wg *sync.WaitGroup) {
 	data, err := network.GetDataFromURL(indicators.GetURL())
 	if err != nil {
 		log.Printf("[ERROR] failed to get indicators data: %v", err)
-		DataChan <- err
 		return
 	}
 
 	err = json.Unmarshal(data, &id)
 	if err != nil {
 		log.Printf("[ERROR] failed to get indicators data: %v", err)
-		DataChan <- err
 		return
 	}
 
-	DataChan <- id
+	model.TelemetryInstance.LockMux()
+	defer model.TelemetryInstance.UnlockMux()
+	model.TelemetryInstance.Indicators = id
 }
