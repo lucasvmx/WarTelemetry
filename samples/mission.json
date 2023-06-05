@@ -1,0 +1,10 @@
+{
+   "objectives" : [
+      {
+         "primary" : true,
+         "status" : "in_progress",
+         "text" : "Follow the route"
+      }
+   ],
+   "status" : "running"
+}
