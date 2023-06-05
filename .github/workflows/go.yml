@@ -16,14 +16,14 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.15
+        go-version: 1.20
 
     - name: Get packages
       run: go get -v ./...
 
     - name: Build
       run: go build -v ./...
-      
+
   build-windows:
     runs-on: windows-latest
     steps:
@@ -32,7 +32,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.15
+        go-version: 1.20
 
     - name: Get packages
       run: go get -v ./...
@@ -48,7 +48,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.15
+        go-version: 1.20
 
     - name: Get packages
       run: go get -v ./...
