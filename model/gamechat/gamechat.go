@@ -13,6 +13,7 @@ type GameChat struct {
 	Sender  string `json:"sender"`
 	Enemy   bool   `json:"enemy"`
 	Mode    string `json:"mode"`
+	Time    int    `json:"time"`
 }
 
 // path string
@@ -25,6 +26,7 @@ func GetURL() string {
 		url = utils.GetBaseURL()
 		url = strings.ReplaceAll(url, "$hostname$", utils.GetHostname())
 		url = strings.ReplaceAll(url, "$path$", path)
+		//url += "?lastId=0"
 	}
 
 	return url

@@ -14,11 +14,7 @@ const distanceFactor float64 = 66.32072
 func IsAircraft(object *mapobjects.MapObjects) bool {
 
 	// Check type
-	if object.Type == "aircraft" {
-		return true
-	}
-
-	return false
+	return object.Type == "aircraft"
 }
 
 // IsCurrentPlayer function determines if current object is the current player
@@ -27,11 +23,7 @@ func IsCurrentPlayer(object *mapobjects.MapObjects) bool {
 	iconName := strings.ToLower(object.Icon)
 
 	// Check object
-	if iconName == "player" {
-		return true
-	}
-
-	return false
+	return iconName == "player"
 }
 
 // CalculateDistanceInKm gets the distance in kilometers between two objects

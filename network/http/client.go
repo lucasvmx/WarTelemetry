@@ -1,7 +1,7 @@
 package network
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 )
@@ -23,7 +23,7 @@ func readResponse(response *http.Response) (data []byte, err error) {
 	defer response.Body.Close()
 
 	// Read response body
-	data, err = ioutil.ReadAll(response.Body)
+	data, err = io.ReadAll(response.Body)
 
 	return
 }

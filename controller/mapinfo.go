@@ -2,27 +2,29 @@ package controller
 
 import (
 	"encoding/json"
+	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/mapinfo"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
 )
 
 // GetMapInfoData function retrieves information about current map
-func GetMapInfoData(wg *sync.WaitGroup) (mi *mapinfo.MapInformation, err error) {
+func GetMapInfoData(wg *sync.WaitGroup) {
+	var mi *mapinfo.MapInformation = &mapinfo.MapInformation{}
 	defer wg.Done()
 
 	data, err := network.GetDataFromURL(mapinfo.GetURL())
 	if err != nil {
-		return nil, err
+		log.Printf("[ERROR] failed to get map information data: %v", err)
+		return
 	}
 
-	failure := json.Unmarshal(data, &mi)
-	if failure != nil {
-		return nil, err
-	}
+	json.Unmarshal(data, &mi)
 
-	DataChan <- mi
+	model.TelemetryInstance.LockMux()
+	defer model.TelemetryInstance.UnlockMux()
 
-	return
+	model.TelemetryInstance.MapInfo = mi
 }
