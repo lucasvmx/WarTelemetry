@@ -8,6 +8,11 @@ A simple library to get WarThunder data provided by the localhost server
 
 # Usage
 
+## Installation
+```sh
+go get -u github.com/lucasvmx/WarTelemetry/telemetry
+```
+
 ## Example
 ```go
 package main
@@ -31,11 +36,6 @@ func main() {
 		}
 	}
 }
-```
-
-## Get Packages
-```sh
-go get -v
 ```
 
 ## Build program
