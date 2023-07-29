@@ -2,9 +2,9 @@ package controller
 
 import (
 	"errors"
-	"log"
 	"strings"
 
+	"github.com/lucasvmx/WarTelemetry/logger"
 	"github.com/lucasvmx/WarTelemetry/model/mapobjects"
 )
 
@@ -42,7 +42,7 @@ func GetAlliesColor(mo []mapobjects.MapObjects) (color string) {
 	// Gets current player
 	player, err := GetCurrentPlayer(mo)
 	if err != nil {
-		log.Printf("[ERROR] Failed to get current player: %v", err)
+		logger.LogError("failed to get current player: %v", err)
 		return
 	}
 

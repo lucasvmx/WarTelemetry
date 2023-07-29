@@ -2,9 +2,9 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/logger"
 	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/mapinfo"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
@@ -17,13 +17,13 @@ func GetMapInfoData(wg *sync.WaitGroup) {
 
 	data, err := network.GetDataFromURL(mapinfo.GetURL())
 	if err != nil {
-		log.Printf("[ERROR] failed to get map information data: %v", err)
+		logger.LogError("failed to get map information data: %v", err)
 		return
 	}
 
 	err = json.Unmarshal(data, &mi)
 	if err != nil {
-		log.Printf("[ERROR] failed to get map information data: %v", err)
+		logger.LogError("failed to get map information data: %v", err)
 		return
 	}
 

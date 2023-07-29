@@ -2,9 +2,9 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/logger"
 	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/hudmsg"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
@@ -17,14 +17,14 @@ func GetHudMessagesData(wg *sync.WaitGroup) {
 
 	data, err := network.GetDataFromURL(hudmsg.GetURL())
 	if err != nil {
-		log.Printf("[ERROR] failed to get hud message data: %v", err)
+		logger.LogError("failed to get hud message data: %v", err)
 		return
 	}
 
 	// Decode data into a struct
 	err = json.Unmarshal(data, &messages)
 	if err != nil {
-		log.Printf("[ERROR] failed to get hud message data: %v", err)
+		logger.LogError("failed to get hud message data: %v", err)
 		return
 	}
 
