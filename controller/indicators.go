@@ -2,9 +2,9 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/logger"
 	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/indicators"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
@@ -17,11 +17,15 @@ func GetIndicatorsData(wg *sync.WaitGroup) {
 
 	data, err := network.GetDataFromURL(indicators.GetURL())
 	if err != nil {
-		log.Printf("[ERROR] failed to get indicators data: %v", err)
+		logger.LogError("failed to get indicators data: %v", err)
 		return
 	}
 
-	json.Unmarshal(data, &id)
+	err = json.Unmarshal(data, &id)
+	if err != nil {
+		logger.LogError("failed to get indicators data: %v", err)
+		return
+	}
 
 	model.TelemetryInstance.LockMux()
 	defer model.TelemetryInstance.UnlockMux()

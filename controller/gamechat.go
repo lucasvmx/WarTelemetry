@@ -2,9 +2,9 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/logger"
 	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/gamechat"
 	client "github.com/lucasvmx/WarTelemetry/network/http"
@@ -19,12 +19,16 @@ func GetGamechatData(wg *sync.WaitGroup) {
 	// Sends the GET request
 	body, err := client.GetDataFromURL(gamechat.GetURL())
 	if err != nil {
-		log.Printf("[ERROR] failed to get gamechat data: %v", err)
+		logger.LogError("failed to get gamechat data: %v", err)
 		return
 	}
 
 	// Decode data into a struct
-	json.Unmarshal(body, &gc)
+	err = json.Unmarshal(body, &gc)
+	if err != nil {
+		logger.LogError("failed to get gamechat data: %v", err)
+		return
+	}
 
 	model.TelemetryInstance.LockMux()
 	defer model.TelemetryInstance.UnlockMux()

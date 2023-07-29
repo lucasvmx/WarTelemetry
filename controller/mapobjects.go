@@ -2,9 +2,9 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 	"sync"
 
+	"github.com/lucasvmx/WarTelemetry/logger"
 	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/mapobjects"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
@@ -18,12 +18,16 @@ func GetMapObjsData(wg *sync.WaitGroup) {
 	// Sends GET request
 	data, err := network.GetDataFromURL(mapobjects.GetURL())
 	if err != nil {
-		log.Printf("[ERROR] failed to get map objects data: %v", err)
+		logger.LogError("failed to get map objects data: %v", err)
 		return
 	}
 
 	// Decode data into a json struct
-	json.Unmarshal(data, &mo)
+	err = json.Unmarshal(data, &mo)
+	if err != nil {
+		logger.LogError("failed to get map objects data: %v", err)
+		return
+	}
 
 	model.TelemetryInstance.LockMux()
 	defer model.TelemetryInstance.UnlockMux()

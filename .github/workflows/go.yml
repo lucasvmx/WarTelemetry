@@ -11,15 +11,15 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
-        go-version: 1.20
+        go-version: '>=1.19'
 
     - name: Get packages
-      run: go get -v ./...
+      run: go get -u ./...
 
     - name: Build
       run: go build -v ./...
@@ -27,12 +27,12 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
-        go-version: 1.20
+        go-version: '>=1.19'
 
     - name: Get packages
       run: go get -v ./...
@@ -43,15 +43,15 @@ jobs:
   build-mac:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
-        go-version: 1.20
+        go-version: '>=1.19'
 
     - name: Get packages
-      run: go get -v ./...
+      run: go get -u ./...
 
     - name: Build
       run: go build -v ./...
