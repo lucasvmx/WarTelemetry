@@ -13,24 +13,33 @@ A simple library to get WarThunder data provided by the localhost server
 package main
 
 import (
-	"fmt"
+	"log"
+	"time"
 
+	"github.com/lucasvmx/WarTelemetry/logger"
 	wartelemetry "github.com/lucasvmx/WarTelemetry/telemetry"
 )
 
 func main() {
 	// Not needed if war thunder is running on localhost
-	wartelemetry.Initialize("192.168.0.34")
+	wartelemetry.Initialize("192.168.1.35")
+
+    // Enable internal debug logging (disabled by default)
+	logger.EnableDebug()
 
 	for {
-		t, _ := wartelemetry.GetTelemetryData()
-		objs := t.MapObjects
 
-		for _, obj := range objs {
-			fmt.Printf("type: %v, x: %v, y: %v\n", obj.Type, obj.X, obj.Y)
+		t, err := wartelemetry.GetTelemetryData()
+		if err != nil {
+			log.Printf("failed to collect data: %v", err)
+			time.Sleep(time.Second * 3)
+			continue
+		} else {
+			log.Printf("Aircraft Name: %v", t.Indicators.AircraftName)
 		}
 	}
 }
+
 ```
 
 ## Get Packages
