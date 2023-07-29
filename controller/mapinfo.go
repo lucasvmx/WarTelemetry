@@ -12,7 +12,7 @@ import (
 
 // GetMapInfoData function retrieves information about current map
 func GetMapInfoData(wg *sync.WaitGroup) {
-	var mi *mapinfo.MapInformation
+	var mi *mapinfo.MapInformation = &mapinfo.MapInformation{}
 	defer wg.Done()
 
 	data, err := network.GetDataFromURL(mapinfo.GetURL())

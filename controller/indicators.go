@@ -12,7 +12,7 @@ import (
 
 // GetIndicatorsData function retrieves data about aircraft indicators
 func GetIndicatorsData(wg *sync.WaitGroup) {
-	var id *indicators.Indicators
+	var id *indicators.Indicators = &indicators.Indicators{}
 	defer wg.Done()
 
 	data, err := network.GetDataFromURL(indicators.GetURL())

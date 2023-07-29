@@ -35,6 +35,7 @@ type Indicators struct {
 	RpmMin           float32 `json:"rpm_min"`
 	RpmMin1          float32 `json:"rpm1_min"`
 	AngleOfAttacl    float32 `json:"aoa"`
+	SuperCharger     float32 `json:"supercharger"`
 }
 
 var path string = "indicators"

@@ -13,7 +13,7 @@ import (
 
 // GetStateData function retrieves data about running missions
 func GetStateData(wg *sync.WaitGroup) {
-	var st *state.AircraftState
+	var st *state.AircraftState = &state.AircraftState{}
 	defer wg.Done()
 
 	// Sends a HTTP request

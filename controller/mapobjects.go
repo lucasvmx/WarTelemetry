@@ -12,7 +12,7 @@ import (
 
 // GetMapObjsData function retrives data about all map objects
 func GetMapObjsData(wg *sync.WaitGroup) {
-	var mo []mapobjects.MapObjects
+	var mo []mapobjects.MapObjects = []mapobjects.MapObjects{}
 	defer wg.Done()
 
 	// Sends GET request
