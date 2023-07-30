@@ -36,6 +36,7 @@ type AircraftState struct {
 	Pitch1            float32 `json:"pitch1"`
 	Thrust1           float32 `json:"thrust1"`
 	Efficiency1       float32 `json:"efficiency1"`
+	CompressorStage1  float32 `json:"compressorstage1"`
 
 	// Engine 2
 	ThrottleEngine2   float32 `json:"throttle2"`
@@ -48,6 +49,7 @@ type AircraftState struct {
 	Pitch2            float32 `json:"pitch2"`
 	Thrust2           float32 `json:"thrust2"`
 	Efficiency2       float32 `json:"efficiency2"`
+	CompressorStage2  float32 `json:"compressorstage2"`
 
 	// Engine 3
 	ThrottleEngine3   float32 `json:"throttle3"`
@@ -60,6 +62,7 @@ type AircraftState struct {
 	Pitch3            float32 `json:"pitch3"`
 	Thrust3           float32 `json:"thrust3"`
 	Efficiency3       float32 `json:"efficiency3"`
+	CompressorStage3  float32 `json:"compressorstage3"`
 
 	// Engine 4
 	ThrottleEngine4   float32 `json:"throttle4"`
@@ -72,6 +75,7 @@ type AircraftState struct {
 	Pitch4            float32 `json:"pitch4"`
 	Thrust4           float32 `json:"thrust4"`
 	Efficiency4       float32 `json:"efficiency4"`
+	CompressorStage4  float32 `json:"compressorstage4"`
 }
 
 var path string = "state"
