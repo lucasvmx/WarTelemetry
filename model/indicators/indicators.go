@@ -34,8 +34,10 @@ type Indicators struct {
 	ClockSec         float32 `json:"clock_sec"`
 	RpmMin           float32 `json:"rpm_min"`
 	RpmMin1          float32 `json:"rpm1_min"`
-	AngleOfAttacl    float32 `json:"aoa"`
+	GAcceleration    float32 `json:"g_meter"`
+	AngleOfAttack    float32 `json:"aoa"`
 	SuperCharger     float32 `json:"supercharger"`
+	PropellerPitch   float32 `json:"prop_pitch"`
 }
 
 var path string = "indicators"
