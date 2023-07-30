@@ -3,6 +3,7 @@ package telemetry
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/lucasvmx/WarTelemetry/controller"
 	"github.com/lucasvmx/WarTelemetry/logger"
@@ -38,6 +39,8 @@ func Initialize(hostname string) {
 
 func getTelemetryData() {
 
+	start := time.Now()
+
 	for name, callback := range collectors {
 		logger.LogInfo("running task go get %v data", name)
 		wg.Add(1)
@@ -45,6 +48,8 @@ func getTelemetryData() {
 	}
 
 	wg.Wait()
+
+	logger.LogInfo("fetched data in %v", time.Since(start))
 }
 
 // GetTelemetryData function retrieves all telemetry data
