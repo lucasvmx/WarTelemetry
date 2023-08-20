@@ -2,9 +2,8 @@ package controller
 
 import (
 	"encoding/json"
-	"sync"
+	"fmt"
 
-	"github.com/lucasvmx/WarTelemetry/logger"
 	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/model/state"
 	network "github.com/lucasvmx/WarTelemetry/network/http"
@@ -12,15 +11,13 @@ import (
 )
 
 // GetStateData function retrieves data about running missions
-func GetStateData(wg *sync.WaitGroup) {
+func GetStateData() error {
 	var st *state.AircraftState = &state.AircraftState{}
-	defer wg.Done()
 
 	// Sends a HTTP request
 	data, err := network.GetDataFromURL(state.GetURL())
 	if err != nil {
-		logger.LogError("failed to get state data: %v", err)
-		return
+		return fmt.Errorf("failed to get state data: %v", err)
 	}
 
 	// Process JSON into a readable format
@@ -29,11 +26,12 @@ func GetStateData(wg *sync.WaitGroup) {
 	// Decode JSON into a struct
 	err = json.Unmarshal(data, &st)
 	if err != nil {
-		logger.LogError("failed to get state data: %v", err)
-		return
+		return fmt.Errorf("failed to get state data: %v", err)
 	}
 
 	model.TelemetryInstance.LockMux()
 	defer model.TelemetryInstance.UnlockMux()
 	model.TelemetryInstance.State = st
+
+	return nil
 }

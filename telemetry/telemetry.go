@@ -1,20 +1,17 @@
 package telemetry
 
 import (
-	"fmt"
-	"sync"
-	"time"
-
 	"github.com/lucasvmx/WarTelemetry/controller"
 	"github.com/lucasvmx/WarTelemetry/logger"
 	"github.com/lucasvmx/WarTelemetry/model"
 	"github.com/lucasvmx/WarTelemetry/utils"
+	"golang.org/x/sync/errgroup"
 )
 
-var wg *sync.WaitGroup
+var errGroup *errgroup.Group
 
 var (
-	collectors = map[string]func(*sync.WaitGroup){
+	collectors = map[string]func() error{
 		"gamechat":   controller.GetGamechatData,
 		"indicators": controller.GetIndicatorsData,
 		"map_info":   controller.GetMapInfoData,
@@ -34,22 +31,17 @@ func Initialize(hostname string) {
 	}
 
 	model.SetupTelemetry()
-	wg = &sync.WaitGroup{}
+	errGroup = new(errgroup.Group)
 }
 
-func getTelemetryData() {
-
-	start := time.Now()
+func getTelemetryData() error {
 
 	for name, callback := range collectors {
-		logger.LogInfo("running task go get %v data", name)
-		wg.Add(1)
-		go callback(wg)
+		logger.LogInfo("running task to get %v data", name)
+		errGroup.Go(callback)
 	}
 
-	wg.Wait()
-
-	logger.LogInfo("fetched data in %v", time.Since(start))
+	return errGroup.Wait()
 }
 
 // GetTelemetryData function retrieves all telemetry data
@@ -58,7 +50,9 @@ func GetTelemetryData() (data *model.TelemetryData, err error) {
 	// Initialize struct
 	data = &model.TelemetryData{}
 
-	getTelemetryData()
+	if fail := getTelemetryData(); fail != nil {
+		return nil, fail
+	}
 
 	data.MapInfo = model.GetInstance().MapInfo
 	data.Gamechat = model.GetInstance().Gamechat
@@ -67,14 +61,6 @@ func GetTelemetryData() (data *model.TelemetryData, err error) {
 	data.HudMessages = model.GetInstance().HudMessages
 	data.MapObjects = model.GetInstance().MapObjects
 	data.MissionInfo = model.GetInstance().MissionInfo
-
-	if data.MapInfo == nil || data.Gamechat == nil ||
-		data.Indicators == nil || data.State == nil ||
-		data.HudMessages == nil || data.MapObjects == nil ||
-		data.MissionInfo == nil {
-
-		return nil, fmt.Errorf("invalid data returned from some (or all) endpoints")
-	}
 
 	return
 }
